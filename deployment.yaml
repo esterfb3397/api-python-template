@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-python-template
+  namespace: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-python-template
+  template:
+    metadata:
+      labels:
+        app: api-python-template
+    spec:
+      containers:
+      - name: api-python-template
+        image: estherfb3397/api-python-template:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 5000
