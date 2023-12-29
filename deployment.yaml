@@ -4,7 +4,7 @@ metadata:
   name: api-python-template
   namespace: api
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: api-python-template
@@ -19,6 +19,6 @@ spec:
         resources:
           limits:
             memory: "128Mi"
-            cpu: "500m"
+            cpu: "100m"
         ports:
         - containerPort: 5000
