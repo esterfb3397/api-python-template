@@ -8,6 +8,6 @@ async def get_hello_world() -> str:
     return "Hello World!"
 
 
-@router.get("")
+@router.get("/sum")
 async def sum(x: float, y: float) -> float:
     return x + y
