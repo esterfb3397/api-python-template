@@ -83,6 +83,6 @@ jobs:
       - name: Get the DO kubernetes cluster
         run: doctl kubernetes cluster kubeconfig save ${{ secrets.DIGITALOCEAN_CLUSTER_ID }}
       - name: Deploy to DO Kubernetes
-        run: kubectl set image deployment/${{ env.KUBERNETES_DEPLOYMENT }} ${{ env.KUBERNETES_DEPLOYMENT }}= ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_IMAGE_TAG }} -n ${{ env.KUBERNETES_NAMESPACE }}
+        run: kubectl set image deployment/${{ env.KUBERNETES_DEPLOYMENT }} ${{ env.KUBERNETES_DEPLOYMENT }}=${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_IMAGE_TAG }} -n ${{ env.KUBERNETES_NAMESPACE }}
       - name: Verify deployment
         run: kubectl rollout status deployment/${{ env.KUBERNETES_DEPLOYMENT }} -n ${{ env.KUBERNETES_NAMESPACE }}
