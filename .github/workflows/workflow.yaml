@@ -1,4 +1,4 @@
-name: CI - Workflow
+name: CICD - Workflow
 on:
   push:
     branches: [master,main]
@@ -7,10 +7,12 @@ on:
 env:
   PYTHON_VERSION: "3.10"
   POETRY_VERSION: "1.7.1"
-  PYLINT_THRESHOLD: "0"
-  PROJECT_FOLDER: "template"
+  PYLINT_THRESHOLD: 0
+  PROJECT_FOLDER: app
   DOCKER_IMAGE_NAME: ${{ github.event.repository.name }}
   DOCKER_IMAGE_TAG: ${{ github.sha }}
+  KUBERNETES_NAMESPACE: api
+  KUBERNETES_DEPLOYMENT: ${{ github.event.repository.name }}
 jobs:
   install-test-coverage:
     runs-on: ubuntu-latest
@@ -69,3 +71,12 @@ jobs:
           build-args: |
            POETRY_VERSION=${{ env.POETRY_VERSION }}
            PYTHON_VERSION=${{ env.PYTHON_VERSION }}
+  deploy-in-do-dev-kubernetes:
+    runs-on: ubuntu-latest
+    needs: [build-and-push-docker-image]
+    if: "${{contains(github.event.head_commit.message, 'cd run') && contains(github.event.head_commit.message, 'DO') && contains(github.event.head_commit.message, 'DEV')}}"
+    steps:
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
